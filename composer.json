@@ -1,0 +1,15 @@
+{
+    "name": "kavya/adminpanel",
+    "autoload": {
+        "psr-4": {
+            "Kavya\\Adminpanel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kavyaXD",
+            "email": "130041996+kavyaXD@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}

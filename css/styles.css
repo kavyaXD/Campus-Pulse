@@ -1,0 +1,40 @@
+.sidebar {
+    background-color: black;
+    color: lightgrey;
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 250px;
+    overflow-y: auto;
+    padding-top: 1rem;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+.sidebar .nav-link span {
+    color: lightgrey;
+}
+
+.sb-topnav {
+    z-index: 1040;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+
+.content {
+    padding-top: 56px;
+    margin-left: 250px;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.toggled {
+    width: 0;
+    background-color: transparent;
+}
+
+.content.expanded {
+    margin-left: 0;
+}
