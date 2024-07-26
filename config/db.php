@@ -12,4 +12,3 @@ $con = mysqli_connect(DB_HOST, DB_SERVER, DB_PASS, DB_NAME);
 if (!$con) {
     die("database not connected");
 }
-$qry = "Create table details(id int,f_name varchar(100),l_name";

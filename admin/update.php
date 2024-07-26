@@ -1,25 +1,27 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
+require '../config/db.php';
 
-require 'config/db.php';
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $fname = $_POST['fname'];
+    $mname = $_POST['mname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $role_id = $_POST['role_id'];
+    $date_of_birth = $_POST['date_of_birth'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $phone_number = $_POST['phone_number'];
+    $year_of_study = $_POST['year_of_study'];
 
-if (isset($_GET['update'])) {
-    $id = $_GET['id'];
-    $f_name = $_GET['f_name'];
-    $l_name = $_GET['l_name'];
-    $email = $_GET['email'];
-    $password = $_GET['password'];
-    $gender = $_GET['gender'];
-    $mobile_no = $_GET['Mobile_NO'];
-    $id1 = $_GET['id1'];
-
-    $sql = "UPDATE `users` SET `id`='[value-1]',`fname`='[value-2]',`mname`='[value-3]',`lname`='[value-4]',`email`='[value-5]',`password`='[value-6]',`role_id`='[value-7]',`dob`='[value-8]',`gender`='[value-9]',`adress`='[value-10]',`mobile_number`='[value-11]',`year_of_study`='[value-12]' WHERE 1 ID='$id1';";
+    $sql = "UPDATE `users` SET `fname`='$fname', `mname`='$mname', `lname`='$lname', `email`='$email', `role_id`='$role_id', `date_of_birth`='$date_of_birth', `gender`='$gender', `address`='$address', `phone_number`='$phone_number', `year_of_study`='$year_of_study' WHERE `id`='$id'";
 
     $res = mysqli_query($con, $sql);
     if ($res) {
         echo "Data Updated Successfully";
-        header('location:user.php');
+        header('location:admin/user.php');
     } else {
         echo "Error: " . mysqli_error($con);
     }

@@ -1,5 +1,7 @@
 <?php
-
+// if (isset($_SESSION['role_id']) && $_SESSION['role_id']!=1) {
+//     # code...
+// }
 
 $title = 'Index';
 require '../vendor/autoload.php';

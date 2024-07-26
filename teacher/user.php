@@ -37,7 +37,7 @@ ob_start();
                   <td><?php echo $row['mname'] ?></td>
                   <td><?php echo $row['lname'] ?></td>
                   <td><?php echo $row['email'] ?></td>
-                  <td><?php echo isset($row['date_of_birth']) ? $row['date_of_birth'] : 'N/A' ?></td>
+                  <td><?php echo $row['date_of_birth'] ?></td>
                   <td><?php echo $row['gender'] ?></td>
                   <td><?php echo $row['address'] ?></td>
                   <td><?php echo $row['phone_number'] ?></td>

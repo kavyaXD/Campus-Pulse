@@ -19,6 +19,8 @@ if ($total == 1) {
     $_SESSION['name'] = $row['fname'];
     $role_id = $row['role_id'];
     $_SESSION['role_id'] = $row['role_id'];
+    $_SESSION['user_id'] = $row['id'];
+
     $verify = password_verify($pass, $hashpass);
     if ($verify) {
         if ($role_id == 1) {
