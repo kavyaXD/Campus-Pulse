@@ -11,24 +11,38 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     User
                 </a>
-                <a class="nav-link" href="attendance.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Attendance
-                </a>
+                <?php if ($_SESSION['role_id'] == 3) { ?>
+                    <a class="nav-link" href="personal_info.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Personal Info
+                    </a>
+                <?php } ?>
+                <?php if ($_SESSION['role_id'] != 3) { ?>
+                    <a class="nav-link" href="attendance.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Attendance
+                    </a>
+                <?php } ?>
+                <?php if ($_SESSION['role_id'] == 3) { ?>
+                    <a class="nav-link" href="attendance_report.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Attendance Status
+                    </a>
+                <?php } ?>
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:<br><?php echo $_SESSION['name'];
-            if ($_SESSION['role_id']==1) {
-                echo "(Admin)";
-            }
-            if ($_SESSION['role_id']==2) {
-                echo "(Teacher)";
-            }
-            if ($_SESSION['role_id']==3) {
-                echo "(Student)";
-            }
-            ?></div>
+                                                if ($_SESSION['role_id'] == 1) {
+                                                    echo "(Admin)";
+                                                }
+                                                if ($_SESSION['role_id'] == 2) {
+                                                    echo "(Teacher)";
+                                                }
+                                                if ($_SESSION['role_id'] == 3) {
+                                                    echo "(Student)";
+                                                }
+                                                ?></div>
         </div>
     </nav>
 </div>

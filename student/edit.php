@@ -27,10 +27,6 @@ ob_start();
         <p>Please fill this form to edit your data.</p>
         <form action="update.php" method="post">
             <div class="form-group">
-                <label for="id">ID:</label>
-                <input type="text" class="form-control" id="id" name="id" value="<?php echo $user['id']; ?>" readonly>
-            </div>
-            <div class="form-group">
                 <label for="fname">First Name:</label>
                 <input type="text" class="form-control" id="fname" name="fname" value="<?php echo $user['fname']; ?>">
             </div>
