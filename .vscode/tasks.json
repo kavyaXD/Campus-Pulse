@@ -1,21 +1,24 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
+"version": "2.0.0",
+"tasks": [
+    {
         "label": "Git Add, Commit, and Push",
         "type": "shell",
         "command": "git add . && git commit -m \"Automated commit\" && git push origin",
         "problemMatcher": [],
         "group": {
-          "kind": "build",
-          "isDefault": true
+            "kind": "build",
+            "isDefault": true
         },
         "options": {
-          "shell": {
-            "executable": "C:\\Windows\\System32\\cmd.exe",
-            "args": ["/d", "/c"]
-          }
+            "shell": {
+                "executable": "C:\\Windows\\System32\\cmd.exe",
+                "args": [
+                    "/d",
+                    "/c"
+                ]
+            }
         }
-      }
-    ]
-  }
+    }
+]
+}
