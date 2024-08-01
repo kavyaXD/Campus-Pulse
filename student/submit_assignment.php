@@ -15,13 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file_path = $_FILES['file_path']['name'];
     $submission_date = date('Y-m-d');
 
-    // Move uploaded file to the current directory
-    move_uploaded_file($_FILES['file_path']['tmp_name'], $file_path);
+    // Ensure the uploads directory exists
+    $upload_dir = '../uploads/';
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
+    }
 
-    // Insert submission into the database
-    $qry = "INSERT INTO submission (assignment_id, user_id, file_path, submission_date) VALUES ('$assignment_id', '$student_id', '$file_path', '$submission_date')";
-    mysqli_query($con, $qry);
-    header('location:index.php');
+    // Move uploaded file to the uploads directory
+    $file_destination = $upload_dir . basename($file_path);
+    if (move_uploaded_file($_FILES['file_path']['tmp_name'], $file_destination)) {
+        // Insert submission into the database
+        $qry = "INSERT INTO submission (assignment_id, user_id, file_path, submission_date) VALUES ('$assignment_id', '$student_id', '$file_destination', '$submission_date')";
+        mysqli_query($con, $qry);
+        header('location:index.php');
+    } else {
+        echo "Failed to upload file.";
+    }
 }
 
 // Fetch all assignments for display
@@ -58,7 +67,7 @@ ob_start();
                                         <input type="file" name="file_path" required>
                                     </div>
                                     <td class="text-center">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </td>
                                 </form>
                             </td>

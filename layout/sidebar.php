@@ -18,7 +18,7 @@
                     </a>
                 <?php } ?>
                 <?php if ($_SESSION['role_id'] == 2) { ?>
-                    <a class="nav-link" href="grade_assginment.php">
+                    <a class="nav-link" href="grade_assIgnment.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Grade Assignment
                     </a>
@@ -50,17 +50,18 @@
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:<br><?php echo $_SESSION['name'];
-                                                if ($_SESSION['role_id'] == 1) {
-                                                    echo "(Admin)";
-                                                }
-                                                if ($_SESSION['role_id'] == 2) {
-                                                    echo "(Teacher)";
-                                                }
-                                                if ($_SESSION['role_id'] == 3) {
-                                                    echo "(Student)";
-                                                }
-                                                ?></div>
+            <div class="small">Logged in as:<br>
+                <?php echo $_SESSION['name'];
+                if ($_SESSION['role_id'] == 1) {
+                    echo "(Admin)";
+                }
+                if ($_SESSION['role_id'] == 2) {
+                    echo "(Teacher)";
+                }
+                if ($_SESSION['role_id'] == 3) {
+                    echo "(Student)";
+                }
+                ?></div>
         </div>
     </nav>
 </div>

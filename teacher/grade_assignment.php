@@ -1,45 +1,73 @@
 <?php
 session_start();
+$title = 'Grade Assignments';
 require '../vendor/autoload.php';
 require '../config/db.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 2) {
+if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 2) { // Check if the user is a teacher
     header('location:../login.php');
     exit;
 }
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $submission_id = $_POST['submission_id'];
-    $marks = $_POST['marks'];
-    $feedback = $_POST['feedback'];
-    $graded_date = date('Y-m-d');
-
-    $qry = "UPDATE submission SET marks='$marks', feedback='$feedback', submission_date='$graded_date' WHERE id='$submission_id'";
-    mysqli_query($con, $qry);
-    header('location:index.php');
+    foreach ($_POST['marks'] as $submission_id => $marks) {
+        $feedback = $_POST['feedback'][$submission_id];
+        $qry = "UPDATE submission SET marks = '$marks', feedback = '$feedback' WHERE id = '$submission_id'";
+        mysqli_query($con, $qry);
+    }
+    header('location:grade_assignments.php');
 }
+
+// Fetch all submissions
+$qry = "SELECT s.id as submission_id, a.title, u.fname, u.lname, s.file_path, s.submission_date, s.marks, s.feedback
+        FROM submission s
+        JOIN assignments a ON s.assignment_id = a.id
+        JOIN users u ON s.user_id = u.id
+        ORDER BY s.submission_date DESC";
+$result = mysqli_query($con, $qry);
 
 ob_start();
 ?>
 
-<div class="col-md-10">
+<div class="container-fluid">
     <div class="row">
-        <h2>Grade Assignment</h2>
-        <form action="grade_assignment.php" method="post">
-            <div class="form-group">
-                <label for="submission_id">Submission ID:</label>
-                <input type="number" class="form-control" id="submission_id" name="submission_id" required>
-            </div>
-            <div class="form-group">
-                <label for="marks">Marks:</label>
-                <input type="number" class="form-control" id="marks" name="marks" required>
-            </div>
-            <div class="form-group">
-                <label for="feedback">Feedback:</label>
-                <textarea class="form-control" id="feedback" name="feedback" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Grade Assignment</button>
-        </form>
+        <div class="col-12">
+            <h2>Grade Assignments</h2>
+            <form action="grade_assignments.php" method="post">
+                <table class="table table-hover table-striped table-bordered mb-0">
+                    <thead class="bg-dark text-white text-center">
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Student Name</th>
+                            <th>Submission Date</th>
+                            <th>File</th>
+                            <th>Marks</th>
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <tr>
+                                <td><?php echo $row['title']; ?></td>
+                                <td><?php echo $row['fname'] . ' ' . $row['lname']; ?></td>
+                                <td><?php echo $row['submission_date']; ?></td>
+                                <td><a href="uploads/<?php echo $row['file_path']; ?>" target="_blank">View File</a></td>
+                                <td>
+                                    <input type="number" name="marks[<?php echo $row['submission_id']; ?>]" value="<?php echo $row['marks']; ?>" class="form-control" required>
+                                </td>
+                                <td>
+                                    <textarea name="feedback[<?php echo $row['submission_id']; ?>]" class="form-control" required><?php echo $row['feedback']; ?></textarea>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Submit Grades</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
