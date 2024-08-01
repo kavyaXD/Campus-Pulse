@@ -8,33 +8,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $assignment_id = $_POST['assignment_id'];
-    $student_id = $_SESSION['user_id'];
-    $file_path = $_FILES['file_path']['name'];
-    $submission_date = date('Y-m-d');
-
-    // Ensure the uploads directory exists
-    $upload_dir = '../uploads/';
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
-    }
-
-    // Move uploaded file to the uploads directory
-    $file_destination = $upload_dir . basename($file_path);
-    if (move_uploaded_file($_FILES['file_path']['tmp_name'], $file_destination)) {
-        // Insert submission into the database
-        $qry = "INSERT INTO submission (assignment_id, user_id, file_path, submission_date) VALUES ('$assignment_id', '$student_id', '$file_destination', '$submission_date')";
-        mysqli_query($con, $qry);
-        header('location:index.php');
-    } else {
-        echo "Failed to upload file.";
-    }
-}
+$student_id = $_SESSION['user_id'];
+$submitted_assignments = [];
 
 // Fetch all assignments for display
-$qry = "SELECT * FROM assignments;";
-$assignments = mysqli_query($con, $qry);
+$qry = "SELECT * FROM assignments";
+$result = mysqli_query($con, $qry);
+
+// Check which assignments have been submitted by the student
+$submission_qry = "SELECT assignment_id FROM submission WHERE user_id = '$student_id'";
+$submission_result = mysqli_query($con, $submission_qry);
+while ($submission_row = mysqli_fetch_assoc($submission_result)) {
+    $submitted_assignments[] = $submission_row['assignment_id'];
+}
+
+// Reset result pointer to reuse $result
+mysqli_data_seek($result, 0);
 
 ob_start();
 ?>
@@ -50,38 +39,36 @@ ob_start();
                         <th>Description</th>
                         <th>Due Date</th>
                         <th>Upload File</th>
-                        <th>Submit</th>
+                        <?php if (empty($submitted_assignments)) { ?>
+                            <th>Submit</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($assignments)) {
-                        // Check if the student has already submitted this assignment
-                        $assignment_id = $row['id'];
-                        $student_id = $_SESSION['user_id'];
-                        $submission_check = "SELECT * FROM submission WHERE assignment_id = '$assignment_id' AND user_id = '$student_id'";
-                        $submission_result = mysqli_query($con, $submission_check);
-                        $submitted = mysqli_num_rows($submission_result) > 0;
-                    ?>
+                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                             <td><?php echo $row['title']; ?></td>
                             <td><?php echo $row['description']; ?></td>
                             <td><?php echo $row['due_date']; ?></td>
                             <td class="text-center">
-                                <?php if ($submitted) { ?>
-                                    <span class="text-success">Submitted</span>
+                                <?php
+                                $due_date = new DateTime($row['due_date']);
+                                $current_date = new DateTime();
+
+                                if (in_array($row['id'], $submitted_assignments)) { ?>
+                                    Submitted
+                                <?php } elseif ($current_date > $due_date) { ?>
+                                    Past Due
                                 <?php } else { ?>
                                     <form action="submit_assignment.php" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="assignment_id" value="<?php echo $row['id']; ?>">
                                         <div class="form-group">
                                             <input type="file" name="file_path" required>
                                         </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                <?php } ?>
                             </td>
-                            <td class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </td>
-                            </form>
-                        <?php } ?>
-                        </td>
                         </tr>
                     <?php } ?>
                 </tbody>

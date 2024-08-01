@@ -11,6 +11,12 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     User
                 </a>
+                <?php if ($_SESSION['role_id'] == 1) { ?>
+                    <a class="nav-link" href="department.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Departments
+                    </a>
+                <?php } ?>
                 <?php if ($_SESSION['role_id'] == 2) { ?>
                     <a class="nav-link" href="create_assginment.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
