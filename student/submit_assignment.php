@@ -54,7 +54,7 @@ ob_start();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($assignments)) { 
+                    <?php while ($row = mysqli_fetch_assoc($assignments)) {
                         // Check if the student has already submitted this assignment
                         $assignment_id = $row['id'];
                         $student_id = $_SESSION['user_id'];
@@ -75,13 +75,13 @@ ob_start();
                                         <div class="form-group">
                                             <input type="file" name="file_path" required>
                                         </div>
-                                </td>
-                                <td class="text-center">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </td>
-                                    </form>
-                                <?php } ?>
                             </td>
+                            <td class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </td>
+                            </form>
+                        <?php } ?>
+                        </td>
                         </tr>
                     <?php } ?>
                 </tbody>
