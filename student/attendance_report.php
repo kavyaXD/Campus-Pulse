@@ -4,7 +4,7 @@ session_start();
 require '../config/db.php';
 $title='Attendance ';
 $id=$_SESSION['user_id'];
-$sql="SELECT * FROM `attendance`where user_id=$id";
+$sql="SELECT * FROM `attendance`where user_id=$id order by date";
 $res=mysqli_query($con,$sql);
 ?>
 <section>
@@ -17,7 +17,7 @@ $res=mysqli_query($con,$sql);
         while($row=$res->fetch_assoc())
         {?>
 
-        <td><?php echo $row['date'];?></td>
+        <td><?php echo $row['date']?></td>
         <td><?php echo $row['status']?></td>
 
     <?php

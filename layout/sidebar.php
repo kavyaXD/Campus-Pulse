@@ -11,6 +11,18 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     User
                 </a>
+                <?php if ($_SESSION['role_id'] == 2) { ?>
+                    <a class="nav-link" href="create_assginment.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Create Assignment
+                    </a>
+                <?php } ?>
+                <?php if ($_SESSION['role_id'] == 2) { ?>
+                    <a class="nav-link" href="grade_assginment.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Grade Assignment
+                    </a>
+                <?php } ?>
                 <?php if ($_SESSION['role_id'] == 3) { ?>
                     <a class="nav-link" href="personal_info.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
