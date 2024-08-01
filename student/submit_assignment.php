@@ -1,6 +1,5 @@
 <?php
 session_start();
-$title = 'Submit Assignment';
 require '../vendor/autoload.php';
 require '../config/db.php';
 
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Fetch all assignments for display
 $qry = "SELECT * FROM assignments;";
-$result = mysqli_query($con, $qry);
+$assignments = mysqli_query($con, $qry);
 
 ob_start();
 ?>
@@ -55,21 +54,33 @@ ob_start();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <?php while ($row = mysqli_fetch_assoc($assignments)) { 
+                        // Check if the student has already submitted this assignment
+                        $assignment_id = $row['id'];
+                        $student_id = $_SESSION['user_id'];
+                        $submission_check = "SELECT * FROM submission WHERE assignment_id = '$assignment_id' AND user_id = '$student_id'";
+                        $submission_result = mysqli_query($con, $submission_check);
+                        $submitted = mysqli_num_rows($submission_result) > 0;
+                    ?>
                         <tr>
                             <td><?php echo $row['title']; ?></td>
                             <td><?php echo $row['description']; ?></td>
                             <td><?php echo $row['due_date']; ?></td>
                             <td class="text-center">
-                                <form action="submit_assignment.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="assignment_id" value="<?php echo $row['id']; ?>">
-                                    <div class="form-group">
-                                        <input type="file" name="file_path" required>
-                                    </div>
-                                    <td class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </td>
-                                </form>
+                                <?php if ($submitted) { ?>
+                                    <span class="text-success">Submitted</span>
+                                <?php } else { ?>
+                                    <form action="submit_assignment.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="assignment_id" value="<?php echo $row['id']; ?>">
+                                        <div class="form-group">
+                                            <input type="file" name="file_path" required>
+                                        </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </td>
+                                    </form>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } ?>

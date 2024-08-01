@@ -1,6 +1,5 @@
 <?php
 session_start();
-$title = 'Grade Assignments';
 require '../vendor/autoload.php';
 require '../config/db.php';
 
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $qry = "UPDATE submission SET marks = '$marks', feedback = '$feedback' WHERE id = '$submission_id'";
         mysqli_query($con, $qry);
     }
-    header('location:grade_assignments.php');
+    header('location:grade_assignment.php');
 }
 
 // Fetch all submissions
@@ -34,7 +33,7 @@ ob_start();
     <div class="row">
         <div class="col-12">
             <h2>Grade Assignments</h2>
-            <form action="grade_assignments.php" method="post">
+            <form action="grade_assignment.php" method="post">
                 <table class="table table-hover table-striped table-bordered mb-0">
                     <thead class="bg-dark text-white text-center">
                         <tr>
