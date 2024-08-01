@@ -1,5 +1,6 @@
 <?php
 session_start();
+$title='';
 require '../vendor/autoload.php';
 require '../config/db.php';
 
@@ -14,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file_path = $_FILES['file_path']['name'];
     $submission_date = date('Y-m-d');
 
-    // Upload file
     move_uploaded_file($_FILES['file_path']['tmp_name'], "uploads/$file_path");
 
     $qry = "INSERT INTO submission (assignment_id, user_id, file_path, submission_date) VALUES ('$assignment_id', '$student_id', '$file_path', '$submission_date')";

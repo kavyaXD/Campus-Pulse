@@ -29,6 +29,12 @@
                         Personal Info
                     </a>
                 <?php } ?>
+                <?php if ($_SESSION['role_id'] == 3) { ?>
+                    <a class="nav-link" href="submit_assignment.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Submit Assignment
+                    </a>
+                <?php } ?>
                 <?php if ($_SESSION['role_id'] != 3) { ?>
                     <a class="nav-link" href="attendance.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
