@@ -19,22 +19,22 @@ $dept = mysqli_fetch_assoc($dept_result);
 
 ob_start();
 ?>
-    <form action="form_class.php" method="post">
-        <div class="form-group">
-            <label for="department_id">Department</label>
-            <input type="text" name="department_id" class="form-control" value="<?php echo $dept['name']?>" readonly>
-            <input type="hidden" name="department_id" value="<?php echo $dept['id']?>">
-        </div>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="status">Status</label>
-            <input type="checkbox" name="status" data-toggle="toggle" data-on="Active" data-off="Inactive">
-        </div>
-        <button type="submit" class="btn btn-primary">Add Class</button>
-    </form>
+<form action="form_class.php" method="post">
+    <div class="form-group">
+        <label for="department_id">Department</label>
+        <input type="text" name="department_id" class="form-control" value="<?php echo $dept['name'] ?>" readonly>
+        <input type="hidden" name="department_id" value="<?php echo $dept['id'] ?>">
+    </div>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="status">Status</label>
+        <input type="checkbox" name="status" data-toggle="toggle" data-on="Active" data-off="Inactive">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Class</button>
+</form>
 <?php
 $content = ob_get_clean();
 
