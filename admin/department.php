@@ -15,7 +15,6 @@ $result = mysqli_query($con, $qry);
 <section>
     <table class="table table-stripped table-borderrer">
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -26,7 +25,6 @@ $result = mysqli_query($con, $qry);
         while ($rows = $result->fetch_assoc()) {
         ?>
             <tr>
-                <td><?php echo $rows['id']; ?></td>
                 <td><?php echo $rows['name']; ?></td>
                 <td>
                     <a href="edit_dep.php ?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
