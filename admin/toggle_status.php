@@ -3,12 +3,14 @@ session_start();
 require '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $status = isset($_POST['status']) && $_POST['status'] == 'on' ? 'active' : 'inactive';
+    $id = intval($_POST['id']);
+    $department_id = intval($_POST['department_id']);
+    $status = isset($_POST['status']) ? 'active' : 'inactive';
 
-    $qry = "UPDATE classes SET status = '$status' WHERE id = '$id'";
+    $qry = "UPDATE classes SET status = '$status' WHERE id = $id";
     mysqli_query($con, $qry);
-}
 
-header('location:classes.php');
+    header("Location: classes.php?department_id=$department_id");
+    exit();
+}
 ?>

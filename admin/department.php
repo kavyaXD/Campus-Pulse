@@ -1,7 +1,7 @@
 <?php
 ob_start();
 require '../config/db.php';
-$pagetitle = "Departments";
+$title = "Departments";
 ?>
 <div class="header d-flex justify-content-between align-items-center">
     <div style="text-align: right;">
@@ -27,13 +27,14 @@ $result = mysqli_query($con, $qry);
             <tr>
                 <td><?php echo $rows['name']; ?></td>
                 <td>
-                    <a href="edit_dep.php ?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="edit_dep.php?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                 </td>
                 <td>
-
-                    <a href="delete_dep.php ?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    <a href="delete_dep.php?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this department?');">Delete</a>
                 </td>
-                <td><a href="classes.php?department_id=<?php echo $rows['id']; ?>" class="btn btn-success ">Classes</a></td>
+                <td>
+                    <a href="classes.php?department_id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-success">Classes</a>
+                </td>
             </tr>
         <?php
         }
@@ -42,6 +43,5 @@ $result = mysqli_query($con, $qry);
 </section>
 <?php
 $content = ob_get_clean();
-
 include_once __DIR__ . '/../layout/app_layout.php';
 ?>
