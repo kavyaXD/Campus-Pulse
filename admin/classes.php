@@ -1,10 +1,26 @@
 <?php
 session_start();
 require '../config/db.php';
+
 $title = "Classes";
 
-// Fetch all classes with department names
-$qry = "SELECT classes.*, departments.name AS department_name FROM classes JOIN departments ON classes.department_id = departments.id;";
+// Fetch all departments
+$department_query = "SELECT id, name FROM departments";
+$department_result = mysqli_query($con, $department_query);
+$departments = mysqli_fetch_all($department_result, MYSQLI_ASSOC);
+
+// Check if a department is selected
+$selected_department_id = isset($_POST['department']) ? intval($_POST['department']) : 0;
+
+// Fetch classes based on selected department
+$qry = "SELECT classes.*, departments.name AS department_name 
+        FROM classes 
+        JOIN departments ON classes.department_id = departments.id";
+
+if ($selected_department_id > 0) {
+    $qry .= " WHERE classes.department_id = $selected_department_id";
+}
+
 $result = mysqli_query($con, $qry);
 
 ob_start();
@@ -15,6 +31,19 @@ ob_start();
     </div>
 </div>
 <section>
+    <!-- Department Filter Form -->
+    <form method="post" class="mb-3">
+        <label for="department">Filter by Department:</label>
+        <select id="department" name="department" class="form-select" onchange="this.form.submit()">
+            <option value="0">-- All Departments --</option>
+            <?php foreach ($departments as $dept): ?>
+                <option value="<?php echo $dept['id']; ?>" <?php echo $dept['id'] == $selected_department_id ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($dept['name']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -27,13 +56,11 @@ ob_start();
             </tr>
         </thead>
         <tbody>
-            <?php
-            while ($rows = mysqli_fetch_assoc($result)) {
-            ?>
+            <?php while ($rows = mysqli_fetch_assoc($result)): ?>
                 <tr>
                     <td><?php echo $rows['id']; ?></td>
-                    <td><?php echo $rows['department_name']; ?></td>
-                    <td><?php echo $rows['name']; ?></td>
+                    <td><?php echo htmlspecialchars($rows['department_name']); ?></td>
+                    <td><?php echo htmlspecialchars($rows['name']); ?></td>
                     <td>
                         <form action="toggle_status.php" method="post" class="status-toggle-form">
                             <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
@@ -50,14 +77,11 @@ ob_start();
                         <a href="delete_class.php?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this class?');">Delete</a>
                     </td>
                 </tr>
-            <?php
-            }
-            ?>
+            <?php endwhile; ?>
         </tbody>
     </table>
 </section>
 <?php
 $content = ob_get_clean();
-
 include_once __DIR__ . '/../layout/app_layout.php';
 ?>

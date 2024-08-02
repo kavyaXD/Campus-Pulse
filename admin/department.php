@@ -19,6 +19,7 @@ $pagetitle="Departments";
                 <th>Name</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                <th>Classes</th>
             </tr>
             <?php
             session_start();
@@ -34,6 +35,7 @@ $pagetitle="Departments";
 
                         <a href="delete_dep.php?id=<?php echo $rows['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                     </td>
+                    <td><a href="classes.php">Class</a></td>
 
                 </tr>
             <?php
