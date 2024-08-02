@@ -9,10 +9,6 @@ $title = "Add User";
     <div class="row">
         <form action="insert_dep.php" method="post">
             <div class="form-group">
-                <label for="f_name">ID:</label>
-                <input type="number" class="form-control form-control-sm" name="id" placeholder="Enter id">
-            </div>
-            <div class="form-group">
                 <label for="f_name">Name:</label>
                 <input type="text" class="form-control form-control-sm" name="name" placeholder="Enter Department Name">
             </div>
