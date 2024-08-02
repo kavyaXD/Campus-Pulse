@@ -7,7 +7,7 @@ if (isset($_POST['user_id']) && isset($_POST['status'])) {
 
     $qry = "UPDATE classes SET status = $status WHERE id = $user_id";
     if (mysqli_query($con, $qry)) {
-        header("Location: user.php");
+        header("Location: classes.php");
     } else {
         echo "Error updating status: " . mysqli_error($con);
     }

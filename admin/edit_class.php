@@ -11,19 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $qry = "UPDATE classes SET department_id = '$department_id', name = '$name', status = '$status' WHERE id = '$id'";
     mysqli_query($con, $qry);
-    header('location:index.php');
+    header('location:classes.php');
 }
 
 $qry = "SELECT * FROM classes WHERE id = '$id'";
 $result = mysqli_query($con, $qry);
 $class = mysqli_fetch_assoc($result);
 
+// Fetch all departments for the dropdown
+$dept_qry = "SELECT * FROM departments;";
+$dept_result = mysqli_query($con, $dept_qry);
+
 ob_start();
 ?>
     <form action="edit_class.php?id=<?php echo $id; ?>" method="post">
         <div class="form-group">
-            <label for="department_id">Department ID</label>
-            <input type="text" name="department_id" class="form-control" value="<?php echo $class['department_id']; ?>" required>
+            <label for="department_id">Department</label>
+            <select name="department_id" class="form-control" required>
+                <option value="">Select Department</option>
+                <?php
+                while ($dept = mysqli_fetch_assoc($dept_result)) {
+                    $selected = $class['department_id'] == $dept['id'] ? 'selected' : '';
+                    echo "<option value='" . $dept['id'] . "' $selected>" . $dept['name'] . "</option>";
+                }
+                ?>
+            </select>
         </div>
         <div class="form-group">
             <label for="name">Name</label>
@@ -31,7 +43,7 @@ ob_start();
         </div>
         <div class="form-group">
             <label for="status">Status</label>
-            <input type="checkbox" name="status" <?php echo $class['status'] == 'active' ? 'checked' : ''; ?>>
+            <input type="checkbox" name="status" <?php echo $class['status'] == 'active' ? 'checked' : ''; ?> data-toggle="toggle" data-on="Active" data-off="Inactive">
         </div>
         <button type="submit" class="btn btn-primary">Update Class</button>
     </form>
