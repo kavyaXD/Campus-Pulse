@@ -5,11 +5,10 @@ require '../config/db.php';
 $id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $department_id = $_POST['department_id'];
     $name = $_POST['name'];
     $status = isset($_POST['status']) ? 'active' : 'inactive';
 
-    $qry = "UPDATE classes SET department_id = '$department_id', name = '$name', status = '$status' WHERE id = '$id'";
+    $qry = "UPDATE classes SET name = '$name', status = '$status' WHERE id = '$id'";
     mysqli_query($con, $qry);
     header('location:classes.php');
 }
@@ -18,24 +17,17 @@ $qry = "SELECT * FROM classes WHERE id = '$id'";
 $result = mysqli_query($con, $qry);
 $class = mysqli_fetch_assoc($result);
 
-// Fetch all departments for the dropdown
-$dept_qry = "SELECT * FROM departments;";
+// Fetch the department name for display
+$dept_qry = "SELECT name FROM departments WHERE id = '$class[department_id]'";
 $dept_result = mysqli_query($con, $dept_qry);
+$dept_name = mysqli_fetch_assoc($dept_result)['name'];
 
 ob_start();
 ?>
     <form action="edit_class.php?id=<?php echo $id; ?>" method="post">
         <div class="form-group">
             <label for="department_id">Department</label>
-            <select name="department_id" class="form-control" required>
-                <option value="">Select Department</option>
-                <?php
-                while ($dept = mysqli_fetch_assoc($dept_result)) {
-                    $selected = $class['department_id'] == $dept['id'] ? 'selected' : '';
-                    echo "<option value='" . $dept['id'] . "' $selected>" . $dept['name'] . "</option>";
-                }
-                ?>
-            </select>
+            <input type="text" class="form-control" value="<?php echo $dept_name; ?>" readonly>
         </div>
         <div class="form-group">
             <label for="name">Name</label>

@@ -12,23 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('location:classes.php');
 }
 
-// Fetch all departments for the dropdown
-$dept_qry = "SELECT * FROM departments;";
+// Fetch the first department
+$dept_qry = "SELECT * FROM departments LIMIT 1;";
 $dept_result = mysqli_query($con, $dept_qry);
+$dept = mysqli_fetch_assoc($dept_result);
 
 ob_start();
 ?>
     <form action="form_class.php" method="post">
         <div class="form-group">
             <label for="department_id">Department</label>
-            <select name="department_id" class="form-control" required>
-                <option value="">Select Department</option>
-                <?php
-                while ($dept = mysqli_fetch_assoc($dept_result)) {
-                    echo "<option value='" . $dept['id'] . "'>" . $dept['name'] . "</option>";
-                }
-                ?>
-            </select>
+            <input type="text" name="department_id" class="form
+            control" value="<?php echo $dept['name']?>" readonly>
+            <input type="hidden" name="department_id" value="<?php echo $dept['id']?>">
         </div>
         <div class="form-group">
             <label for="name">Name</label>
