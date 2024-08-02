@@ -22,8 +22,7 @@ ob_start();
     <form action="form_class.php" method="post">
         <div class="form-group">
             <label for="department_id">Department</label>
-            <input type="text" name="department_id" class="form
-            control" value="<?php echo $dept['name']?>" readonly>
+            <input type="text" name="department_id" class="form-control" value="<?php echo $dept['name']?>" readonly>
             <input type="hidden" name="department_id" value="<?php echo $dept['id']?>">
         </div>
         <div class="form-group">
