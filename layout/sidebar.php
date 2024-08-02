@@ -17,12 +17,6 @@
                         Departments
                     </a>
                 <?php } ?>
-                <?php if ($_SESSION['role_id'] == 1) { ?>
-                    <a class="nav-link" href="classes.php">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Classes
-                    </a>
-                <?php } ?>
                 <?php if ($_SESSION['role_id'] == 2) { ?>
                     <a class="nav-link" href="create_assginment.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
